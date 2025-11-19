@@ -1,0 +1,124 @@
+<div class="runar-chat-flex-container">
+    <!-- Search Bar -->
+    <div class="message-search-container">
+        <input type="text" class="message-search" placeholder="Search messages..." />
+        {{#if searchActive}}
+        <span class="search-results-count">{{searchResults.length}} results</span>
+        {{/if}}
+    </div>
+
+    <!-- Toolbar -->
+    <div class="chat-toolbar">
+        <button type="button" class="favorite-toggle-btn" title="{{#if isFavorite}}Remove from favorites{{else}}Add to favorites{{/if}}">
+            <i class="{{#if isFavorite}}fas{{else}}far{{/if}} fa-star"></i>
+        </button>
+        <button type="button" class="mute-toggle-btn" title="{{#if isMuted}}Unmute{{else}}Mute notifications{{/if}}">
+            <i class="fas fa-{{#if isMuted}}bell-slash{{else}}bell{{/if}}"></i>
+        </button>
+    </div>
+
+    <!-- Message List -->
+    <div class="message-list">
+        {{#each messages}}
+        <div class="chat-message {{#if (eq this.senderId ../currentUser.id)}}sent{{else}}received{{/if}} {{#if this.isPinned}}pinned{{/if}}" data-message-id="{{this.id}}">
+            <div class="message-header">
+                {{#if this.useInitials}}
+                <div class="sender-avatar-initials">{{this.avatarInitials}}</div>
+                {{else}}
+                <img src="{{this.senderImg}}" class="sender-avatar" alt="{{this.senderName}}">
+                {{/if}}
+                <strong class="sender-name">{{this.senderName}}</strong>
+                <span class="message-timestamp" title="{{this.fullTime}}">{{this.relativeTime}}</span>
+                {{#if this.isPinned}}
+                <i class="fas fa-thumbtack pin-indicator" title="Pinned"></i>
+                {{/if}}
+                {{#if this.edited}}
+                <span class="edited-indicator" title="Edited at {{this.editedTime}}">(edited)</span>
+                {{/if}}
+            </div>
+            
+            {{#if this.replyTo}}
+            <div class="reply-preview">
+                <i class="fas fa-reply"></i>
+                <span class="reply-to-name">{{this.replyTo.senderName}}</span>: 
+                <span class="reply-to-content">{{this.replyTo.preview}}</span>
+            </div>
+            {{/if}}
+            
+            <div class="message-content">
+                {{{this.messageContent}}}
+            </div>
+            
+            {{#if this.reactions}}
+            <div class="message-reactions">
+                {{#each this.reactions}}
+                <div class="reaction-item {{#if this.isOwnReaction}}own-reaction{{/if}}" 
+                     data-emoji="{{this.emoji}}" 
+                     title="{{this.users}}">
+                    <span class="reaction-emoji">{{this.emoji}}</span>
+                    <span class="reaction-count">{{this.count}}</span>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+            
+            <div class="message-actions">
+                <button type="button" class="message-action-btn message-reply-btn" data-message-id="{{this.id}}" title="Reply">
+                    <i class="fas fa-reply"></i>
+                </button>
+                <button type="button" class="message-action-btn message-react-btn" data-message-id="{{this.id}}" title="Add Reaction">
+                    <i class="far fa-smile"></i>
+                </button>
+                <button type="button" class="message-action-btn message-pin-btn" data-message-id="{{this.id}}" title="{{#if this.isPinned}}Unpin{{else}}Pin{{/if}}">
+                    <i class="fas fa-thumbtack"></i>
+                </button>
+                {{#if (eq this.senderId ../currentUser.id)}}
+                <button type="button" class="message-action-btn message-edit-btn" data-message-id="{{this.id}}" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="message-action-btn message-delete-btn" data-message-id="{{this.id}}" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+        
+        {{#if typingUsers}}
+        <div class="typing-indicator">
+            <i class="fas fa-ellipsis-h"></i> {{typingUsers}}
+        </div>
+        {{/if}}
+    </div>
+
+    <!-- Reply Preview -->
+    {{#if replyingTo}}
+    <div class="replying-to-bar">
+        <div class="replying-to-content">
+            <i class="fas fa-reply"></i>
+            <span>Replying to <strong>{{replyingTo.senderName}}</strong>: {{replyingTo.preview}}</span>
+        </div>
+        <button type="button" class="cancel-reply-btn" title="Cancel Reply">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    {{/if}}
+
+    <!-- Input Area -->
+    <div class="chat-input-area">
+        {{#if isGM}}
+        <div class="speaker-select">
+            <label>Speak As:</label>
+            <select name="speaker">
+                {{#each speakers}}
+                <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        {{/if}}
+        <textarea name="message" rows="3" placeholder="Type your message... (Shift+Enter for new line, Enter to send)"></textarea>
+        <button type="submit" title="Send Message">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>

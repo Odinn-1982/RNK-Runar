@@ -1,0 +1,59 @@
+/* RagNarok's Runar - Sidebar Button Styling */
+
+#runar-sidebar-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid #ff0000 !important;
+  margin: 0 !important;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  color: #ff3333 !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  user-select: none;
+  pointer-events: auto !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4), inset 0 0 5px rgba(255, 0, 0, 0.2);
+  position: relative;
+  z-index: 100;
+  overflow: hidden;
+  line-height: 0;
+}
+
+#runar-sidebar-button:hover {
+  background: rgba(20, 0, 0, 0.95) !important;
+  color: #ff5555 !important;
+  border-color: #ff5555 !important;
+  box-shadow: 0 0 15px rgba(255, 85, 85, 0.6), inset 0 0 8px rgba(255, 85, 85, 0.3);
+  transform: translateY(-1px);
+}
+
+#runar-sidebar-button:active {
+  background: rgba(0, 0, 0, 0.95) !important;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.5), inset 0 0 10px rgba(255, 0, 0, 0.4);
+  transform: translateY(0);
+}
+
+#runar-sidebar-button i {
+  font-size: 14px !important;
+  margin: 0 !important;
+  color: #ff3333 !important;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.6);
+  pointer-events: none !important;
+}
+
+#runar-sidebar-button:hover i {
+  color: #ff5555 !important;
+  text-shadow: 0 0 10px rgba(255, 85, 85, 0.8);
+}
+
+#runar-sidebar-button span {
+  display: none !important;
+}

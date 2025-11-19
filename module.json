@@ -1,0 +1,45 @@
+{
+  "id": "ragnaroks-runar",
+  "title": "RagNarok's Runar",
+  "description": "A module for managing group and private chats in Foundry VTT.",
+  "version": "1.0.1",
+  "authors": [
+    {
+      "name": "Odinn",
+      "email": "Asgardinnovations@protonmail.com",
+      "url": "https://github.com/Odinn-1982",
+      "discord": "Odinn1982"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "./src/RagnaroksRunar.js",
+    "./src/DataManager.js",
+    "./src/UIManager.js",
+    "./src/SocketHandler.js",
+    "./src/hooks.js",
+    "./src/RunarWindow.js",
+      "./src/GroupManagerWindow.js",
+    "./src/GMMonitorWindow.js",
+    "./src/SettingsWindow.js",
+      "./src/RunarUIExtras.js",
+    "./src/PlayerHubWindow.js",
+    "./src/SidebarButton.js"
+  ],
+  "styles": [
+    "global-theme.css",
+    "ragnaroks-runar.css",
+    "styles/sidebar-button.css"
+  ],
+  "socket": true,
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
+}
