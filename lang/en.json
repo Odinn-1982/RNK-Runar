@@ -1,7 +1,7 @@
-{
-  "RNR.AppName": "RagNarok's Rúnar",
-  "RNR.ChatWith": "Rúnar Chat with: {name}",
-  "RNR.PrivateChat": "Private Rúnar Chat",
+﻿{
+  "RNR.AppName": "RNK Runar",
+  "RNR.ChatWith": "RÃºnar Chat with: {name}",
+  "RNR.PrivateChat": "Private RÃºnar Chat",
   "RNR.GroupChat": "Althing: {name}",
   "RNR.GroupChatDefault": "Group Chat",
   "RNR.SpeakAs": "Speak As",
@@ -28,12 +28,42 @@
   "RNR.SelectMembers": "Select Members",
   "RNR.NoOtherPlayers": "No other players active.",
   "RNR.CreateGroup": "Create Group",
-  "RNR.SettingsTitle": "Rúnar Sound Settings",
+  "RNR.SettingsTitle": "RÃºnar Sound Settings",
   "RNR.NotificationSound": "Notification Sound",
   "RNR.PreviewSound": "Preview Sound",
-  "RNR.NotificationSoundNotes": "Select a sound to play when you receive a new Rúnar message.",
+  "RNR.NotificationSoundNotes": "Select a sound to play when you receive a new RÃºnar message.",
   "RNR.SaveSettings": "Save Settings",
   "RNR.SoundUpdateSuccess": "Your notification sound has been updated!",
-  "RNR.SettingsButton": "Rúnar Settings",
-  "RNR.GroupManagerButton": "Manage Rúnar Groups (Althings)"
+  "RNR.SettingsButton": "RÃºnar Settings",
+  "RNR.GroupManagerButton": "Manage RÃºnar Groups (Althings)"
+  ,
+  "RNR.ChatLogExported": "Chat log exported.",
+  "RNR.ConversationDeleted": "Conversation deleted.",
+  "RNR.PleaseSelectAtLeastOneMember": "Please select at least one member.",
+  "RNR.GroupCreated": "Group \"{name}\" created.",
+  "RNR.PleaseSelectChatToOpen": "Please select a chat to open.",
+  "RNR.PleaseSelectUsersToChat": "Please select at least one user to chat with.",
+  "RNR.RunarNotInitialized": "RÃºnar not initialized yet!",
+  "RNR.ErrorLoadSounds": "Could not load notification sounds list.",
+  "RNR.ErrorPlaySound": "Could not play sound preview. No sound selected.",
+  "RNR.InvalidDiceFormula": "Invalid dice formula: {formula}",
+  "RNR.ActorNotFound": "Actor not found",
+  "RNR.ItemNotFound": "Item not found",
+  "RNR.ChatMuted": "Chat muted",
+  "RNR.ChatUnmuted": "Chat unmuted",
+  "RNR.GroupUpdated": "Group updated"
+  ,
+  "RNR.MessageDeleted": "Message deleted",
+  "RNR.ConversationCleared": "Conversation cleared",
+  "RNR.ExportNoMessages": "No messages to export",
+  "RNR.ConversationExported": "Conversation exported successfully"
+  ,
+  "RNR.SelectConversationFirst": "Please select a conversation first.",
+  "RNR.FailedClearConversation": "Failed to clear conversation",
+  "RNR.FailedOpenRunarHub": "Failed to open Runar {role} Hub",
+  "RNR.NotMember": "You are not a member of this group chat.",
+  "RNR.GMOnlyTool": "This is a GM-only tool.",
+  "RNR.NoPermission": "You do not have permission.",
+  "RNR.OnlyGMsAccessModeration": "Only GMs can access moderation tools"
 }
+

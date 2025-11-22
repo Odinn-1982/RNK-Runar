@@ -1,4 +1,4 @@
-import { DataManager } from './DataManager.js';
+﻿import { DataManager } from './DataManager.js';
 import { UIManager } from './UIManager.js';
 import { Utils } from './Utils.js';
 import { SocketHandler } from './SocketHandler.js';
@@ -6,7 +6,7 @@ import { SocketHandler } from './SocketHandler.js';
 export class GMModWindow extends foundry.applications.api.ApplicationV2 {
     static DEFAULT_OPTIONS = {
         id: 'runar-gm-mod-window',
-        classes: ['ragnaroks-runar'],
+        classes: ['rnk-runar'],
         window: {
             title: "GM Moderation Tools",
             icon: "fas fa-shield-alt",
@@ -21,7 +21,7 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
 
     static PARTS = {
         form: {
-            template: 'modules/ragnaroks-runar/templates/gm-mod.hbs'
+            template: 'modules/rnk-runar/templates/gm-mod.hbs'
         }
     };
 
@@ -59,7 +59,8 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
         }));
 
         // Get user list for filter
-        const users = Array.from(game.users).map(u => ({
+        // Ensure we're mapping user objects (game.users is a Collection)
+        const users = game.users.map(u => ({
             id: u.id,
             name: u.name
         }));
@@ -72,7 +73,7 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
             const user2 = game.users.get(userId2);
             conversations.push({
                 id: chatKey,
-                name: `${user1?.name || 'Unknown'} ↔ ${user2?.name || 'Unknown'}`,
+                name: `${user1?.name || 'Unknown'} â†” ${user2?.name || 'Unknown'}`,
                 type: 'private'
             });
         }
@@ -150,6 +151,18 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
         this.element.querySelectorAll('.export-conversation-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this._onExportConversation(e));
         });
+
+        // Start private chat button on GM Mod
+        const startBtn = this.element.querySelector('[data-action="start-private-chat"]');
+        if (startBtn) {
+            startBtn.addEventListener('click', (e) => {
+                const select = this.element.querySelector('select[name="startChatUser"]');
+                if (!select) return;
+                const userId = select.options[select.selectedIndex].value;
+                if (!userId) return ui.notifications.warn(game.i18n.localize('RNR.PleaseSelectUsersToChat'));
+                UIManager.openChatFor(userId);
+            });
+        }
     }
 
     async _onViewConversation(event) {
@@ -193,7 +206,7 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
 
         // Update UI
         this.render(false);
-        ui.notifications.info("Message deleted");
+        ui.notifications.info(game.i18n.localize("RNR.MessageDeleted"));
     }
 
     async _onClearConversation(event) {
@@ -201,9 +214,10 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
         const conversationType = event.currentTarget.dataset.conversationType;
         const conversationName = event.currentTarget.dataset.conversationName;
 
+        const safeName = Utils.sanitizeHTML(conversationName || '');
         const confirmed = await Dialog.confirm({
             title: "Clear Conversation",
-            content: `<p>Are you sure you want to clear ALL messages from <strong>${conversationName}</strong>?</p><p>This action cannot be undone.</p>`,
+            content: `<p>Are you sure you want to clear ALL messages from <strong>${safeName}</strong>?</p><p>This action cannot be undone.</p>`,
             defaultYes: false
         });
 
@@ -222,9 +236,9 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
             // Update UI
             UIManager.updateChatWindow(conversationId, conversationType);
             this.render(false);
-            ui.notifications.info("Conversation cleared");
+            ui.notifications.info(game.i18n.localize("RNR.ConversationCleared"));
         } else {
-            ui.notifications.error("Failed to clear conversation");
+            ui.notifications.error(game.i18n.localize("RNR.FailedClearConversation"));
         }
     }
 
@@ -237,7 +251,7 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
         const exportData = DataManager.exportConversationHistory(conversationId, isGroup);
 
         if (!exportData) {
-            ui.notifications.warn("No messages to export");
+            ui.notifications.warn(game.i18n.localize("RNR.ExportNoMessages"));
             return;
         }
 
@@ -252,6 +266,7 @@ export class GMModWindow extends foundry.applications.api.ApplicationV2 {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        ui.notifications.info("Conversation exported successfully");
+        ui.notifications.info(game.i18n.localize("RNR.ConversationExported"));
     }
 }
+

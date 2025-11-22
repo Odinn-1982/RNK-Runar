@@ -44,7 +44,7 @@ export class UIManager {
         // Allow GMs to view any group chat, even if they're not a member
         const isMember = group.members.includes(game.user.id);
         if (!isMember && !game.user.isGM) {
-            return ui.notifications.warn("You are not a member of this group chat.");
+            return ui.notifications.warn(game.i18n.localize("RNR.NotMember"));
         }
         
         const existingWindow = this.openGroupChatWindows.get(groupId);
@@ -57,7 +57,7 @@ export class UIManager {
     }
 
     static async openGroupManager() {
-        if (!game.user.isGM) return ui.notifications.error("This is a GM-only tool.");
+        if (!game.user.isGM) return ui.notifications.error(game.i18n.localize("RNR.GMOnlyTool"));
         const { GroupManagerWindow } = await import('./GroupManagerWindow.js');
         const id = 'runar-group-manager';
         if (Object.values(ui.windows).find(w => w.id === id)) return;
@@ -65,7 +65,7 @@ export class UIManager {
     }
 
     static async openGMMonitor() {
-        if (!game.user.isGM) return ui.notifications.warn("You do not have permission.");
+        if (!game.user.isGM) return ui.notifications.warn(game.i18n.localize("RNR.NoPermission"));
         
         // If the window already exists and is open, just bring it to the front.
         if (this.gmMonitorWindow?.rendered) {
@@ -88,10 +88,75 @@ export class UIManager {
         }
         new SettingsWindow().render(true);
     }
+
+    static applyTheme(theme) {
+        // Remove existing runar theme classes
+        const classes = Array.from(document.documentElement.classList).filter(c => c.startsWith('runar-theme-'));
+        classes.forEach(c => document.documentElement.classList.remove(c));
+        if (theme && theme !== 'none') document.documentElement.classList.add(`runar-theme-${theme}`);
+    }
+
+    static updateBackgroundForUser(userId, path) {
+        // Update internal mapping
+        if (!userId) return;
+        if (path) DataManager.setSharedBackground(userId, path);
+        else DataManager.setSharedBackground(userId, null);
+
+        // Apply to open private chat windows
+        for (const [user, win] of this.openPrivateChatWindows.entries()) {
+            if (win && win.rendered) {
+                // if this window is a chat with userId, apply background
+                if (user === userId) {
+                    this.applyBackgroundToWindow(win, path);
+                }
+            }
+        }
+
+        // Apply to open group windows where this user is a member
+        for (const [groupId, win] of this.openGroupChatWindows.entries()) {
+            const group = DataManager.groupChats.get(groupId);
+            if (group && group.members && group.members.includes(userId)) {
+                this.applyBackgroundToWindow(win, path);
+            }
+        }
+
+        // Apply to player hub if open
+        const playerHub = Object.values(ui.windows).find(w => w.id === 'runar-player-hub');
+        if (playerHub && playerHub.rendered) {
+            try { this.applyBackgroundToWindow(playerHub, path); } catch (e) { /* ignore */ }
+        }
+
+        // Apply to GM Monitor (if present) - apply some style or badges
+        if (this.gmMonitorWindow?.rendered) {
+            try { this.gmMonitorWindow.render(false); } catch (e) { /* ignore */ }
+        }
+    }
+
+    static applyBackgroundToWindow(win, path) {
+        if (!win?.element) return;
+        const container = win.element.querySelector('.runar-chat-flex-container');
+        if (!container) return;
+        if (path) {
+            const overlay = 'linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25))';
+            container.style.backgroundImage = `${overlay}, url('${path}')`;
+            container.style.backgroundSize = 'cover';
+            container.style.backgroundRepeat = 'no-repeat';
+            container.style.backgroundPosition = 'center';
+            // Add subtle overlay for text contrast
+            container.style.setProperty('--runar-bg-overlay', 'rgba(0,0,0,0.25)');
+            container.style.position = 'relative';
+        } else {
+            container.style.backgroundImage = '';
+            container.style.removeProperty('background-size');
+            container.style.removeProperty('background-repeat');
+            container.style.removeProperty('background-position');
+            container.style.removeProperty('--runar-bg-overlay');
+        }
+    }
     
     static async openGMModWindow() {
         if (!game.user.isGM) {
-            ui.notifications.warn("Only GMs can access moderation tools");
+            ui.notifications.warn(game.i18n.localize("RNR.OnlyGMsAccessModeration"));
             return;
         }
         
@@ -161,7 +226,7 @@ export class UIManager {
     static updateGMMonitor() {
         // Now, we check our stored reference directly. Much more reliable!
         if (this.gmMonitorWindow?.rendered) {
-            console.log("RÚNAR | Forcing GM Monitor update via direct reference.");
+            console.debug("RÚNAR | Forcing GM Monitor update via direct reference.");
             this.gmMonitorWindow.render(true);
         }
     }

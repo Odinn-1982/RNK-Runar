@@ -1,0 +1,14 @@
+﻿{
+  "name": "rnk-runar",
+  "version": "1.0.1",
+  "description": "RÃºnar chat and group management for Foundry VTT",
+  "main": "main.js",
+  "author": "Odinn",
+  "license": "MIT",
+  "scripts": {
+    "build": "echo \"No build step defined for source files by default; add your bundler of choice.\"",
+    "watch": "echo \"No watch step defined.\""
+  },
+  "devDependencies": {}
+}
+

@@ -1,4 +1,4 @@
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+﻿const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 import { DataManager } from './DataManager.js';
 import { UIManager } from './UIManager.js';
 
@@ -6,17 +6,17 @@ export class GMMonitorWindow extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static DEFAULT_OPTIONS = {
         id: 'runar-gm-monitor',
-        classes: ['ragnaroks-runar'],
+        classes: ['rnk-runar'],
         position: { width: 600, height: 500 },
         window: { resizable: true }
     };
 
     get title() {
-        return "Rúnar GM Monitor";
+        return "RÃºnar GM Monitor";
     }
 
     static PARTS = {
-        body: { template: `modules/ragnaroks-runar/templates/gm-monitor.hbs` }
+        body: { template: `modules/rnk-runar/templates/gm-monitor.hbs` }
     };
 
     async _prepareContext(options) {
@@ -67,6 +67,20 @@ export class GMMonitorWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         });
         this.element.querySelector('[data-action="open-settings"]')?.addEventListener('click', () => {
             UIManager.openSettingsWindow();
+        });
+
+        // Wire start chat buttons
+        this.element.querySelectorAll('.start-chat-sender').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const userId = e.currentTarget.dataset.userId;
+                if (userId) UIManager.openChatFor(userId);
+            });
+        });
+        this.element.querySelectorAll('.start-chat-recipient').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const userId = e.currentTarget.dataset.userId;
+                if (userId) UIManager.openChatFor(userId);
+            });
         });
     }
 

@@ -14,9 +14,17 @@
             <div class="message-info">
                 <img src="{{this.senderImg}}" class="sender-avatar" title="{{this.senderName}}">
                 <span class="sender-name">{{this.speakerName}}</span>
+                <button class="btn start-chat start-chat-sender" data-user-id="{{this.senderId}}" title="Start chat with {{this.senderName}}">
+                    <i class="fas fa-comments"></i>
+                </button>
                 <i class="fas fa-arrow-right monitor-arrow"></i>
                 <img src="{{this.recipientImg}}" class="recipient-avatar" title="{{this.recipientName}}">
                 <span class="recipient-name">{{this.recipientName}}</span>
+                {{#unless this.isGroupMessage}}
+                <button class="btn start-chat start-chat-recipient" data-user-id="{{this.recipientId}}" title="Start chat with {{this.recipientName}}">
+                    <i class="fas fa-comments"></i>
+                </button>
+                {{/unless}}
                 <span class="timestamp">{{this.formattedTime}}</span>
             </div>
             <div class="message-content-preview">

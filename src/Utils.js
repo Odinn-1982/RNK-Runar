@@ -1,6 +1,8 @@
-/**
- * Utility functions for Rúnar
+﻿/**
+ * Utility functions for RÃºnar
  */
+
+import { MODULE_ID } from './Constants.js';
 
 export class Utils {
     /**
@@ -92,7 +94,8 @@ export class Utils {
             if (user) {
                 const isCurrentUser = user.id === game.user.id;
                 const className = isCurrentUser ? 'mention mention-me' : 'mention';
-                return `<span class="${className}" data-user-id="${user.id}">@${user.name}</span>`;
+                const safeName = Utils.sanitizeHTML(user.name || '');
+                return `<span class="${className}" data-user-id="${user.id}">@${safeName}</span>`;
             }
             return match;
         });
@@ -178,7 +181,8 @@ export class Utils {
      */
     static parseRichContent(content) {
         if (!content) return content;
-        
+        // Sanitize content first to prevent any embedded HTML from causing XSS
+        content = Utils.sanitizeHTML(content);
         // Parse URLs into clickable links
         content = content.replace(
             /(https?:\/\/[^\s]+)/g,
@@ -194,19 +198,19 @@ export class Utils {
         // Parse dice rolls [[/roll 1d20]]
         content = content.replace(
             /\[\[\/roll ([^\]]+)\]\]/g,
-            '<span class="dice-roll" data-formula="$1" title="Click to roll">🎲 $1</span>'
+            '<span class="dice-roll" data-formula="$1" title="Click to roll">ðŸŽ² $1</span>'
         );
         
         // Parse actor references @Actor[id]{name}
         content = content.replace(
             /@Actor\[([^\]]+)\]\{([^\}]+)\}/g,
-            '<span class="actor-ref" data-actor-id="$1" title="View actor">👤 $2</span>'
+            '<span class="actor-ref" data-actor-id="$1" title="View actor">ðŸ‘¤ $2</span>'
         );
         
         // Parse item references @Item[id]{name}
         content = content.replace(
             /@Item\[([^\]]+)\]\{([^\}]+)\}/g,
-            '<span class="item-ref" data-item-id="$1" title="View item">📦 $2</span>'
+            '<span class="item-ref" data-item-id="$1" title="View item">ðŸ“¦ $2</span>'
         );
         
         return content;
@@ -220,12 +224,14 @@ export class Utils {
     static formatReplyQuote(message) {
         if (!message) return '';
         
-        const shortContent = message.messageContent.length > 100 
+        const shortContent = (message.messageContent || '').length > 100 
             ? message.messageContent.substring(0, 100) + '...' 
             : message.messageContent;
-            
+        // Sanitize inserted fields
+        const safeName = Utils.sanitizeHTML(message.senderName || '');
+        const safeContent = Utils.sanitizeHTML(shortContent || '');
         return `<div class="reply-quote">
-            <strong>${message.senderName}</strong>: ${shortContent}
+            <strong>${safeName}</strong>: ${safeContent}
         </div>`;
     }
     
@@ -236,7 +242,6 @@ export class Utils {
      * @param {string} icon - Notification icon URL
      */
     static async showDesktopNotification(title, body, icon = null) {
-        const MODULE_ID = 'ragnaroks-runar';
         
         // Check if enabled in settings
         if (!game.settings.get(MODULE_ID, 'enableDesktopNotifications')) return;
@@ -258,7 +263,7 @@ export class Utils {
             body: body,
             icon: icon || 'icons/svg/d20-black.svg',
             badge: 'icons/svg/d20-black.svg',
-            tag: 'ragnaroks-runar-message',
+            tag: 'rnk-runar-message',
             renotify: true
         });
         
@@ -301,3 +306,4 @@ export class Utils {
         });
     }
 }
+

@@ -1,25 +1,33 @@
-/* RagNarok's Runar - Sidebar Button Styling */
+﻿/* RNK Runar - Sidebar Button Styling */
 
-#runar-sidebar-button {
-  display: flex !important;
+/* Align Runar sidebar button visuals with other RNK modules and Foundry sidebar buttons */
+#runar-sidebar-button,
+.runar-sidebar-button {
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
   cursor: pointer;
   background: rgba(0, 0, 0, 0.9) !important;
   border: 2px solid #ff0000 !important;
-  margin: 0 !important;
-  border-radius: 3px;
+  margin: 2px !important;
+  border-radius: 3px !important;
   transition: all 0.2s ease;
   color: #ff3333 !important;
-  width: 32px !important;
-  min-width: 32px !important;
-  max-width: 32px !important;
-  height: 32px !important;
-  min-height: 32px !important;
-  max-height: 32px !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
   user-select: none;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
   pointer-events: auto !important;
+  align-self: center !important;
+  flex: 0 0 auto !important;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.4), inset 0 0 5px rgba(255, 0, 0, 0.2);
   position: relative;
   z-index: 100;
@@ -27,7 +35,8 @@
   line-height: 0;
 }
 
-#runar-sidebar-button:hover {
+#runar-sidebar-button:hover,
+.runar-sidebar-button:hover {
   background: rgba(20, 0, 0, 0.95) !important;
   color: #ff5555 !important;
   border-color: #ff5555 !important;
@@ -35,25 +44,75 @@
   transform: translateY(-1px);
 }
 
-#runar-sidebar-button:active {
+#runar-sidebar-button:active,
+.runar-sidebar-button:active {
   background: rgba(0, 0, 0, 0.95) !important;
   box-shadow: 0 0 12px rgba(255, 0, 0, 0.5), inset 0 0 10px rgba(255, 0, 0, 0.4);
   transform: translateY(0);
 }
 
-#runar-sidebar-button i {
-  font-size: 14px !important;
+#runar-sidebar-button i,
+.runar-sidebar-button i {
+  font-size: 16px !important;
   margin: 0 !important;
   color: #ff3333 !important;
   text-shadow: 0 0 6px rgba(255, 0, 0, 0.6);
   pointer-events: none !important;
 }
 
-#runar-sidebar-button:hover i {
+#runar-sidebar-button:hover i,
+.runar-sidebar-button:hover i {
   color: #ff5555 !important;
   text-shadow: 0 0 10px rgba(255, 85, 85, 0.8);
 }
 
-#runar-sidebar-button span {
+#runar-sidebar-button span,
+.runar-sidebar-button span {
   display: none !important;
 }
+
+/* Ensure the custom sidebar button stack matches other modules (width, gap & alignment) */
+#RNK-sidebar-button-stack,
+#custom-sidebar-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 4px 0 !important;
+  pointer-events: auto !important;
+  z-index: 100 !important;
+  width: 52px !important;
+  max-width: 52px !important;
+}
+
+/* Make sure all direct children of the custom button stack are sized to match other modules */
+/* More specific selector for #sidebar-tabs wrapper to override theme rules */
+#sidebar-tabs #custom-sidebar-buttons > *,
+#sidebar-tabs #RNK-sidebar-button-stack > *,
+#custom-sidebar-buttons > *,
+#RNK-sidebar-button-stack > * {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  box-sizing: border-box !important;
+  align-self: center !important;
+  vertical-align: middle !important;
+  line-height: 0 !important;
+}
+
+#sidebar-tabs #RNK-sidebar-button-stack,
+#sidebar-tabs #custom-sidebar-buttons {
+  width: 52px !important;
+  max-width: 52px !important;
+  align-items: center !important;
+}
+

@@ -1,7 +1,7 @@
-/* --- Rúnar Module-Specific Styles --- */
+﻿/* --- RÃºnar Module-Specific Styles --- */
 
-/* --- Generic Rúnar Window Styles --- */
-.ragnaroks-runar .window-content {
+/* --- Generic RÃºnar Window Styles --- */
+.rnk-runar .window-content {
     flex: 1;
     min-height: 0;
     padding: 0;
@@ -49,6 +49,80 @@
     opacity: 0.6;
 }
 
+/* --- RÃºnar Theme Variations --- */
+.runar-theme-ancient {
+    --runar-primary-color: #2b1b0f;
+    --runar-secondary-color: #1b1b18;
+    --runar-gold-color: #b8860b;
+    --runar-text-color: #fff7e6;
+    --runar-input-bg: #15130f;
+    --runar-button-stone-bg: #221f19;
+}
+.runar-theme-midnight {
+    --runar-primary-color: #041126;
+    --runar-secondary-color: #021022;
+    --runar-gold-color: #7bdff6;
+    --runar-text-color: #dff4ff;
+    --runar-input-bg: #051428;
+    --runar-button-stone-bg: #071428;
+}
+.runar-theme-forest {
+    --runar-primary-color: #0b3d2e;
+    --runar-secondary-color: #081f14;
+    --runar-gold-color: #9ad28f;
+    --runar-text-color: #dbeee1;
+    --runar-input-bg: #09241c;
+    --runar-button-stone-bg: #0b2f20;
+}
+.runar-theme-ocean {
+    --runar-primary-color: #003e5f;
+    --runar-secondary-color: #012632;
+    --runar-gold-color: #66d2ff;
+    --runar-text-color: #dff6ff;
+    --runar-input-bg: #05272d;
+    --runar-button-stone-bg: #053642;
+}
+.runar-theme-sunrise {
+    --runar-primary-color: #5a1a01;
+    --runar-secondary-color: #2a0a02;
+    --runar-gold-color: #ffb86b;
+    --runar-text-color: #fff4e6;
+    --runar-input-bg: #2b1106;
+    --runar-button-stone-bg: #37190a;
+}
+.runar-theme-sunset {
+    --runar-primary-color: #6b0f21;
+    --runar-secondary-color: #2f0a0f;
+    --runar-gold-color: #ff9f6b;
+    --runar-text-color: #fff3f1;
+    --runar-input-bg: #311114;
+    --runar-button-stone-bg: #3a141b;
+}
+.runar-theme-desert {
+    --runar-primary-color: #6e4a24;
+    --runar-secondary-color: #2e200f;
+    --runar-gold-color: #f7d794;
+    --runar-text-color: #fff7e6;
+    --runar-input-bg: #301f10;
+    --runar-button-stone-bg: #3a2717;
+}
+.runar-theme-aurora {
+    --runar-primary-color: #1b3344;
+    --runar-secondary-color: #0b1520;
+    --runar-gold-color: #9fd3c7;
+    --runar-text-color: #e5fffa;
+    --runar-input-bg: #07121a;
+    --runar-button-stone-bg: #09202b;
+}
+.runar-theme-sky {
+    --runar-primary-color: #0b4c6f;
+    --runar-secondary-color: #062b3f;
+    --runar-gold-color: #a7e9ff;
+    --runar-text-color: #e8fbff;
+    --runar-input-bg: #062b3f;
+    --runar-button-stone-bg: #0a3b56;
+}
+
 /* --- Sidebar button styles (stacked vertically) --- */
 .runar-sidebar-button {
     display: flex !important;
@@ -59,11 +133,11 @@
     background: rgba(0, 0, 0, 0.8) !important;
     border: 2px solid #FF3333 !important;
     margin: 2px !important;
-    border-radius: 4px !important;
+    border-radius: 3px !important;
     transition: all 0.2s ease !important;
     color: #FF3333 !important;
-    width: 32px !important;
-    height: 32px !important;
+    width: 36px !important;
+    height: 36px !important;
     min-width: 32px !important;
     max-width: 32px !important;
     min-height: 32px !important;

@@ -15,6 +15,46 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label>Global Theme</label>
+        <div class="form-fields">
+            <select name="globalTheme" {{#unless isGM}}disabled{{/unless}}>
+                <option value="none" {{#if (eq currentTheme 'none')}}selected{{/if}}>None</option>
+                <option value="ancient" {{#if (eq currentTheme 'ancient')}}selected{{/if}}>Ancient</option>
+                <option value="midnight" {{#if (eq currentTheme 'midnight')}}selected{{/if}}>Midnight</option>
+                <option value="forest" {{#if (eq currentTheme 'forest')}}selected{{/if}}>Forest</option>
+                <option value="ocean" {{#if (eq currentTheme 'ocean')}}selected{{/if}}>Ocean</option>
+                <option value="sunrise" {{#if (eq currentTheme 'sunrise')}}selected{{/if}}>Sunrise</option>
+                <option value="sunset" {{#if (eq currentTheme 'sunset')}}selected{{/if}}>Sunset</option>
+                <option value="desert" {{#if (eq currentTheme 'desert')}}selected{{/if}}>Desert</option>
+                <option value="aurora" {{#if (eq currentTheme 'aurora')}}selected{{/if}}>Aurora</option>
+                <option value="sky" {{#if (eq currentTheme 'sky')}}selected{{/if}}>Sky</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Personal Background</label>
+        <div class="form-fields">
+            <input type="text" name="personalBackground" value="{{currentBackground}}" placeholder="modules/RNKs-runar/assets/your-bg.png" />
+            <button type="button" data-action="browse-bg" title="Choose Image"><i class="fas fa-image"></i></button>
+        </div>
+        {{#if currentBackground}}
+        <div class="form-fields">
+            <div class="background-preview">
+                <img src="{{currentBackground}}" alt="Background Preview" style="max-width: 100%; height: 80px; object-fit: cover; border-radius: 4px;"/>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group">
+        <label>Share Background</label>
+        <div class="form-fields">
+            <input type="checkbox" name="shareBackground" {{#if shareBackground}}checked{{/if}} />
+        </div>
+    </div>
+
     <footer class="form-footer">
         <button type="submit" name="submit">
             <i class="far fa-save"></i> Save Changes

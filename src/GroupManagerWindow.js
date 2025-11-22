@@ -1,4 +1,4 @@
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+﻿const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 import { DataManager } from './DataManager.js';
 import { UIManager } from './UIManager.js';
 
@@ -6,7 +6,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
   
     static DEFAULT_OPTIONS = {
         id: 'runar-group-manager',
-        classes: ['ragnaroks-runar', 'group-manager-app'],
+        classes: ['rnk-runar', 'group-manager-app'],
         window: { title: "RNR.GroupManagerTitle", resizable: true },
         tag: 'form',
         position: { width: 700, height: 500 }
@@ -17,7 +17,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
     }
 
     static PARTS = {
-        form: { template: 'modules/ragnaroks-runar/templates/group-manager.hbs' }
+        form: { template: 'modules/rnk-runar/templates/group-manager.hbs' }
     };
 
     async _prepareContext(options) {
@@ -77,7 +77,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
     _getSelected() {
         const selectedRadio = this.element.querySelector('input[name="selectedConversation"]:checked');
         if (!selectedRadio) {
-            ui.notifications.warn("Please select a conversation first.");
+            ui.notifications.warn(game.i18n.localize("RNR.SelectConversationFirst"));
             return null;
         }
         return selectedRadio.dataset;
@@ -134,7 +134,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
         }).join('\r\n');
 
         saveDataToFile(formattedLog, "text/plain", fileName);
-        ui.notifications.info("Chat log exported.");
+        ui.notifications.info(game.i18n.localize("RNR.ChatLogExported"));
     }
 
     async deleteSelected() {
@@ -152,7 +152,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
                     DataManager.privateChats.delete(selected.conversationId);
                     await DataManager.savePrivateChats();
                 }
-                ui.notifications.info("Conversation deleted.");
+                ui.notifications.info(game.i18n.localize("RNR.ConversationDeleted"));
                 this.render(true);
             },
             no: () => {},
@@ -163,7 +163,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
     async createGroup() {
         const form = this.element;
         const selectedUsers = Array.from(form.querySelectorAll('.user-checkbox:checked')).map(el => el.value);
-        if (selectedUsers.length === 0) return ui.notifications.warn("Please select at least one member.");
+        if (selectedUsers.length === 0) return ui.notifications.warn(game.i18n.localize("RNR.PleaseSelectAtLeastOneMember"));
         
         // Auto-generate group name from selected members
         const userNames = selectedUsers.map(id => game.users.get(id)?.name || "Unknown").join(", ");
@@ -177,7 +177,7 @@ export class GroupManagerWindow extends HandlebarsApplicationMixin(ApplicationV2
         await DataManager.saveGroupChats();
         
         // This doesn't use the socket because only the GM is making a permanent group
-        ui.notifications.info(`Group "${name}" created.`);
+        ui.notifications.info(game.i18n.format("RNR.GroupCreated", { name }));
         this.render(true);
     }
 }

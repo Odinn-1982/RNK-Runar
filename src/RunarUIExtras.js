@@ -1,12 +1,12 @@
-/* RunarUIExtras.js - Injects theme variables and sidebar button (matching CBHub pattern) */
+﻿/* RunarUIExtras.js - Injects theme variables and sidebar button (matching CBHub pattern) */
 
-console.log('RunarUIExtras.js: Module loaded and executing initialization immediately');
+console.debug('RunarUIExtras.js: Module loaded and executing initialization immediately');
 
 const BUTTON_STACK_ID = 'custom-sidebar-buttons';
 const BUTTON_STACK_STYLE_ID = 'custom-sidebar-button-stack-style';
 
 function getSidebarButtonStack() {
-  const tabs = document.querySelector('#sidebar-tabs');
+  const tabs = document.querySelector('#sidebar-tabs') || document.querySelector('#sidebar');
   if (!tabs) return null;
 
   let stack = tabs.querySelector(`#${BUTTON_STACK_ID}`);
@@ -24,7 +24,7 @@ function getSidebarButtonStack() {
       max-width: 52px !important;
     `;
 
-    const reference = tabs.querySelector('.item[data-tab="settings"]') ?? tabs.lastElementChild;
+    const reference = tabs.querySelector('.item[data-tab="settings"]') ?? tabs.querySelector('.tab.settings') ?? tabs.querySelector('.item') ?? tabs.lastElementChild;
     if (reference) {
       reference.insertAdjacentElement('afterend', stack);
     } else {
@@ -32,7 +32,7 @@ function getSidebarButtonStack() {
     }
   }
 
-  const legacy = tabs.querySelector('#ragnarok-sidebar-button-stack');
+  const legacy = tabs.querySelector('#RNK-sidebar-button-stack');
   if (legacy && legacy !== stack) {
     while (legacy.firstChild) stack.appendChild(legacy.firstChild);
     legacy.remove();
@@ -76,9 +76,9 @@ function ensureSidebarButtonStackStyles() {
 }
 
 function initializeRunarUI() {
-  console.log('RunarUIExtras: Initializing UI...');
+  console.debug('RunarUIExtras: Initializing UI...');
   try {
-    console.log('Step 1: Applying CSS variables...');
+    console.debug('Step 1: Applying CSS variables...');
     var root = document.documentElement;
     root.style.setProperty('--runar-primary-color', '#000000');
     root.style.setProperty('--runar-secondary-color', '#000000');
@@ -86,9 +86,9 @@ function initializeRunarUI() {
     root.style.setProperty('--runar-text-color', '#FF3333');
     root.style.setProperty('--runar-input-bg', '#1a1a1a');
     root.style.setProperty('--runar-button-stone-bg', '#111111');
-    console.log('Step 1 done: CSS variables set');
+    console.debug('Step 1 done: CSS variables set');
 
-    console.log('Step 2: Creating sidebar button (CBHub pattern)...');
+    console.debug('Step 2: Creating sidebar button (CBHub pattern)...');
     if (!document.getElementById('runar-sidebar-button')) {
       var button = document.createElement('div');
       button.id = 'runar-sidebar-button';
@@ -137,7 +137,7 @@ function initializeRunarUI() {
       
       // Add click handler
       button.addEventListener('click', function(ev) {
-        console.log('Runar button clicked!');
+        console.debug('Runar button clicked!');
         ev.preventDefault();
         ev.stopPropagation();
         
@@ -167,7 +167,7 @@ function initializeRunarUI() {
             }).catch(err => {
               console.error(`Failed to import ${WindowClass}:`, err);
               if (window.ui && ui.notifications) {
-                ui.notifications.error(`Failed to open Runar ${isGM ? 'GM' : 'Player'} Hub`);
+                ui.notifications.error(game.i18n.format("RNR.FailedOpenRunarHub", { role: isGM ? 'GM' : 'Player' }));
               }
             });
           }
@@ -182,15 +182,15 @@ function initializeRunarUI() {
       const container = getSidebarButtonStack();
       if (container) {
         container.appendChild(button);
-        console.log('Step 2 done: Runar button added to shared stack');
+        console.debug('Step 2 done: Runar button added to shared stack');
       } else {
-        console.log('Sidebar not found, will retry on ready hook');
+        console.debug('Sidebar not found, will retry on ready hook');
       }
     } else {
-      console.log('Step 2 skipped: Button already exists');
+      console.debug('Step 2 skipped: Button already exists');
     }
     
-    console.log('RunarUIExtras: All done successfully');
+    console.debug('RunarUIExtras: All done successfully');
   }
   catch (err) {
     console.error('RunarUIExtras error:', err);
@@ -199,17 +199,18 @@ function initializeRunarUI() {
 }
 
 if (document.readyState === 'loading') {
-  console.log('RunarUIExtras: DOM still loading, waiting for DOMContentLoaded');
+  console.debug('RunarUIExtras: DOM still loading, waiting for DOMContentLoaded');
   document.addEventListener('DOMContentLoaded', initializeRunarUI);
 } else {
-  console.log('RunarUIExtras: DOM already loaded, initializing immediately');
+  console.debug('RunarUIExtras: DOM already loaded, initializing immediately');
   initializeRunarUI();
 }
 
 Hooks.on('ready', function() {
-  console.log('RunarUIExtras: ready hook fired');
+  console.debug('RunarUIExtras: ready hook fired');
   if (!document.querySelector('#runar-sidebar-button')) {
-    console.log('RunarUIExtras: Button not yet created, initializing now');
+    console.debug('RunarUIExtras: Button not yet created, initializing now');
     initializeRunarUI();
   }
 });
+

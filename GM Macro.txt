@@ -1,1 +1,2 @@
-window.RagnaroksRunarUIManager.openGMMonitor();
+﻿window.RNKRunarUIManager.openGMMonitor();
+

@@ -1,1 +1,2 @@
-window.RagnaroksRunarUIManager.openPlayerHub();
+﻿window.RNKRunarUIManager.openPlayerHub();
+

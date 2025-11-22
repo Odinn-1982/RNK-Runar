@@ -1,0 +1,26 @@
+<div class="runar-gm-mod">
+  <header class="window-header">
+    <h2>{{title}}</h2>
+  </header>
+  <div class="runar-gm-mod-body">
+    <p>This GM-only mod panel is a placeholder. Add GM controls and moderation tools here.</p>
+    <div class="gm-controls">
+      <button class="button gm-action" data-action="export">Export Logs</button>
+      <button class="button gm-action" data-action="clear">Clear All Group Chats</button>
+    </div>
+    <hr />
+    <div class="gm-controls">
+      <div class="form-group">
+        <label>Start Private Chat</label>
+        <div class="form-fields">
+          <select name="startChatUser">
+            {{#each users}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+          </select>
+          <button class="button gm-action" data-action="start-private-chat">Open Chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

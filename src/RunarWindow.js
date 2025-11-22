@@ -1,8 +1,9 @@
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+﻿const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 import { DataManager } from './DataManager.js';
 import { UIManager } from './UIManager.js';
 import { SocketHandler } from './SocketHandler.js';
 import { Utils } from './Utils.js';
+import { MODULE_ID } from './Constants.js';
 
 export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
 
@@ -40,7 +41,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static DEFAULT_OPTIONS = {
-        classes: ['ragnaroks-runar', 'ragnaroks-runar-chat-window'],
+        classes: ['rnk-runar', 'rnk-runar-chat-window'],
         position: { width: 400, height: 450 },
         window: { 
             resizable: true
@@ -52,7 +53,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     };
 
     static PARTS = {
-        form: { template: `modules/ragnaroks-runar/templates/chat-window.hbs` }
+        form: { template: `modules/rnk-runar/templates/chat-window.hbs` }
     };
 
     async _prepareContext(options) {
@@ -232,7 +233,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             return;
         }
 
-        const content = `<i class="fas fa-ellipsis-h"></i> ${typingText}`;
+        const content = `<i class="fas fa-ellipsis-h"></i> ${Utils.sanitizeHTML(typingText)}`;
         if (typingEl) {
             typingEl.style.display = '';
             typingEl.innerHTML = content;
@@ -298,6 +299,22 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             // Focus the textarea on render
             textarea.focus();
         }
+
+        // Apply personalized or shared background for this window
+        try {
+            let bgPath = null;
+            if (this.options.otherUserId) {
+                const shared = DataManager.getSharedBackground(this.options.otherUserId);
+                if (shared) bgPath = shared;
+                else bgPath = game.settings.get(MODULE_ID, 'personalBackground') || null;
+            } else if (this.options.groupId) {
+                // For group chats, choose global or none for now
+                bgPath = null;
+            } else {
+                bgPath = game.settings.get(MODULE_ID, 'personalBackground') || null;
+            }
+            UIManager.applyBackgroundToWindow(this, bgPath);
+        } catch (e) { /* ignore */ }
 
         // Edit and delete button handlers
         this.element.querySelectorAll('.message-edit-btn').forEach(btn => {
@@ -606,7 +623,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const currentText = messageElement.textContent.trim();
         const newText = await Dialog.prompt({
             title: "Edit Message",
-            content: `<textarea rows="3" style="width: 100%;">${currentText}</textarea>`,
+            content: `<textarea rows="3" style="width: 100%;">${Utils.sanitizeHTML(currentText)}</textarea>`,
             callback: (html) => html.querySelector('textarea').value
         });
         
@@ -693,14 +710,14 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const emoji = await Dialog.prompt({
             title: "Add Reaction",
             content: `<div style="font-size: 2em; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                <button type="button" class="emoji-btn" data-emoji="👍">👍</button>
-                <button type="button" class="emoji-btn" data-emoji="❤️">❤️</button>
-                <button type="button" class="emoji-btn" data-emoji="😂">😂</button>
-                <button type="button" class="emoji-btn" data-emoji="😮">😮</button>
-                <button type="button" class="emoji-btn" data-emoji="😢">😢</button>
-                <button type="button" class="emoji-btn" data-emoji="🎉">🎉</button>
-                <button type="button" class="emoji-btn" data-emoji="🔥">🔥</button>
-                <button type="button" class="emoji-btn" data-emoji="⭐">⭐</button>
+                <button type="button" class="emoji-btn" data-emoji="ðŸ‘">ðŸ‘</button>
+                <button type="button" class="emoji-btn" data-emoji="â¤ï¸">â¤ï¸</button>
+                <button type="button" class="emoji-btn" data-emoji="ðŸ˜‚">ðŸ˜‚</button>
+                <button type="button" class="emoji-btn" data-emoji="ðŸ˜®">ðŸ˜®</button>
+                <button type="button" class="emoji-btn" data-emoji="ðŸ˜¢">ðŸ˜¢</button>
+                <button type="button" class="emoji-btn" data-emoji="ðŸŽ‰">ðŸŽ‰</button>
+                <button type="button" class="emoji-btn" data-emoji="ðŸ”¥">ðŸ”¥</button>
+                <button type="button" class="emoji-btn" data-emoji="â­">â­</button>
             </div>`,
             callback: (html) => {
                 return new Promise((resolve) => {
@@ -761,10 +778,10 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             await roll.evaluate();
             await roll.toMessage({
                 speaker: ChatMessage.getSpeaker({ user: game.user }),
-                flavor: `Rolled from Rúnar chat`
+                flavor: `Rolled from RÃºnar chat`
             });
         } catch (error) {
-            ui.notifications.error(`Invalid dice formula: ${formula}`);
+            ui.notifications.error(game.i18n.format("RNR.InvalidDiceFormula", { formula }));
         }
     }
     
@@ -774,7 +791,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         if (actor) {
             actor.sheet.render(true);
         } else {
-            ui.notifications.warn("Actor not found");
+            ui.notifications.warn(game.i18n.localize("RNR.ActorNotFound"));
         }
     }
     
@@ -784,7 +801,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         if (item) {
             item.sheet.render(true);
         } else {
-            ui.notifications.warn("Item not found");
+            ui.notifications.warn(game.i18n.localize("RNR.ItemNotFound"));
         }
     }
     
@@ -824,7 +841,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         DataManager.toggleMute(conversationId);
         
         const isMuted = DataManager.isMuted(conversationId);
-        ui.notifications.info(isMuted ? "Chat muted" : "Chat unmuted");
+        ui.notifications.info(isMuted ? game.i18n.localize("RNR.ChatMuted") : game.i18n.localize("RNR.ChatUnmuted"));
         
         // Update UI
         this.render(false);
@@ -903,7 +920,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
                         
                         // Update UI
                         UIManager.updateChatWindow(this.options.groupId, 'group');
-                        ui.notifications.info("Group updated");
+                        ui.notifications.info(game.i18n.localize("RNR.GroupUpdated"));
                     }
                 },
                 cancel: {
@@ -936,7 +953,7 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
                     }
                 });
             }
-        }, {classes: ['ragnaroks-runar']});
+        }, {classes: ['rnk-runar']});
         
         dialog.render(true);
     }
@@ -947,12 +964,12 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         
         // Clean up window tracking in UIManager
         if (this.options.otherUserId) {
-            const UIManager = window.RagnaroksRunarUIManager;
+            const UIManager = window.RNKRunarUIManager;
             if (UIManager?.openPrivateChatWindows) {
                 UIManager.openPrivateChatWindows.delete(this.options.otherUserId);
             }
         } else if (this.options.groupId) {
-            const UIManager = window.RagnaroksRunarUIManager;
+            const UIManager = window.RNKRunarUIManager;
             if (UIManager?.openGroupChatWindows) {
                 UIManager.openGroupChatWindows.delete(this.options.groupId);
             }
@@ -961,3 +978,4 @@ export class RunarWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         return super.close(options);
     }
 }
+

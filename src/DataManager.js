@@ -1,5 +1,7 @@
+﻿import { Utils } from './Utils.js';
 export class DataManager {
-    static ID = 'ragnaroks-runar';
+    static ID = 'rnk-runar';
+    static sharedBackgrounds = new Map(); // userId -> background path
     static privateChats = new Map();
     static groupChats = new Map();
     static interceptedMessages = [];
@@ -79,6 +81,10 @@ export class DataManager {
             if (!messageData.id) {
                 messageData.id = foundry.utils.randomID();
             }
+            // Sanitize and enrich content for safe rendering
+            if (typeof messageData.messageContent === 'string') {
+                messageData.messageContent = Utils.parseRichContent(messageData.messageContent);
+            }
             
             // Check for duplicates - don't add if message with this ID already exists
             const chat = this.privateChats.get(chatKey);
@@ -95,7 +101,7 @@ export class DataManager {
     static addGroupMessage(groupId, messageData) {
         const group = this.groupChats.get(groupId);
         if (!group) {
-            console.warn(`RÚNAR | Attempted to add message to non-existent group: ${groupId}`);
+            console.warn(`RÃšNAR | Attempted to add message to non-existent group: ${groupId}`);
             return;
         }
         if (!group.history) {
@@ -105,6 +111,10 @@ export class DataManager {
             // Ensure message has an ID
             if (!messageData.id) {
                 messageData.id = foundry.utils.randomID();
+            }
+            // Sanitize content
+            if (typeof messageData.messageContent === 'string') {
+                messageData.messageContent = Utils.parseRichContent(messageData.messageContent);
             }
             
             // Check for duplicates - don't add if message with this ID already exists
@@ -171,7 +181,7 @@ export class DataManager {
         const message = messages?.find(m => m.id === messageId);
         if (!message) return false;
         
-        message.messageContent = newContent;
+        message.messageContent = Utils.parseRichContent(newContent);
         message.edited = true;
         message.editedAt = Date.now();
         return true;
@@ -399,6 +409,27 @@ export class DataManager {
             this.pinnedMessages.set(convId, new Set(pins));
         }
     }
+
+    static async loadSharedBackgrounds() {
+        const data = game.settings.get(this.ID, 'sharedBackgrounds') || {};
+        this.sharedBackgrounds = new Map(Object.entries(data));
+    }
+
+    static async saveSharedBackgrounds() {
+        if (!game.user.isGM) return; // only GMs can persist world settings
+        const obj = Object.fromEntries(this.sharedBackgrounds);
+        await game.settings.set(this.ID, 'sharedBackgrounds', obj);
+    }
+
+    static setSharedBackground(userId, path) {
+        if (!userId) return;
+        if (path) this.sharedBackgrounds.set(userId, path);
+        else this.sharedBackgrounds.delete(userId);
+    }
+
+    static getSharedBackground(userId) {
+        return this.sharedBackgrounds.get(userId) || null;
+    }
     
     // Group management
     static async renameGroup(groupId, newName) {
@@ -466,7 +497,7 @@ export class DataManager {
                     ...msg,
                     conversationId: chatKey,
                     conversationType: 'private',
-                    conversationName: `${user1?.name || 'Unknown'} ↔ ${user2?.name || 'Unknown'}`
+                    conversationName: `${user1?.name || 'Unknown'} â†” ${user2?.name || 'Unknown'}`
                 });
             });
         }
@@ -543,3 +574,4 @@ export class DataManager {
     
     // Other functions like addGroupMessage can remain.
 }
+

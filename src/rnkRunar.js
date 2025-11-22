@@ -1,10 +1,10 @@
-import { DataManager } from './DataManager.js';
+﻿import { DataManager } from './DataManager.js';
 import { SocketHandler } from './SocketHandler.js';
 import { UIManager } from './UIManager.js';
 
-export class RagnaroksRunar {
-    static ID = 'ragnaroks-runar';
-    static NAME = "RagNarok's Rúnar";
+export class RNKRunar {
+    static ID = 'rnk-runar';
+    static NAME = "RNK Runar";
     // REMOVED the static SOUNDS object.
 
     static initialize() {
@@ -14,8 +14,13 @@ export class RagnaroksRunar {
         DataManager.loadFavorites();
         DataManager.loadMutedConversations();
         DataManager.loadPinnedMessages();
+        DataManager.loadSharedBackgrounds();
+        // Apply any persisted shared backgrounds to open windows
+        for (const [uid, path] of DataManager.sharedBackgrounds.entries()) {
+            if (path) UIManager.updateBackgroundForUser(uid, path);
+        }
         SocketHandler.initialize();
-        console.log(`${this.NAME} | Initialized and ready.`);
+        console.debug(`${this.NAME} | Initialized and ready.`);
     }
     
     static async sendMessage(recipientId, messageContent, speakerData = null) {
@@ -68,3 +73,4 @@ export class RagnaroksRunar {
         UIManager.updatePlayerHub();
     }
 }
+

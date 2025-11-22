@@ -1,9 +1,10 @@
-import { DataManager } from './DataManager.js';
+﻿import { DataManager } from './DataManager.js';
 import { UIManager } from './UIManager.js';
 import { Utils } from './Utils.js';
+import { MODULE_ID, SOCKET_NAME } from './Constants.js';
 
 export class SocketHandler {
-    static SOCKET_NAME = 'module.ragnaroks-runar';
+    static SOCKET_NAME = SOCKET_NAME;
 
     static initialize() {
         game.socket.on(this.SOCKET_NAME, (data) => this._onSocketMessage(data));
@@ -15,10 +16,10 @@ export class SocketHandler {
 
     // FIX: Sound logic is moved here to be self-contained.
     static _playNotificationSound() {
-        const MODULE_ID = 'ragnaroks-runar';
+        // Using MODULE_ID from Constants
         if (!game.settings.get(MODULE_ID, "enableSound")) return;
         
-        // This sound logic was moved from RagnaroksRunar.js
+        // This sound logic was moved from RNKRunar.js
         const soundPath = game.settings.get(MODULE_ID, "gmOverrideEnabled")
             ? game.settings.get(MODULE_ID, "gmOverrideSoundPath")
             : game.settings.get(MODULE_ID, "notificationSound");
@@ -291,6 +292,28 @@ export class SocketHandler {
             // ... other cases remain the same
             case "groupCreate": { /* ... */ }
             case "groupDelete": { /* ... */ }
+            case "backgroundUpdate": {
+                const { userId, background, shared } = data.payload;
+                // Store locally for immediate UI updates
+                if (background) {
+                    DataManager.setSharedBackground(userId, background);
+                } else {
+                    DataManager.setSharedBackground(userId, null);
+                }
+                UIManager.updateBackgroundForUser(userId, background);
+
+                // If the GM received it, persist to world settings.
+                if (game.user.isGM) {
+                    await DataManager.saveSharedBackgrounds();
+                }
+                break;
+            }
+            case "themeUpdate": {
+                const { theme } = data.payload;
+                UIManager.applyTheme(theme);
+                break;
+            }
         }
     }
 }
+

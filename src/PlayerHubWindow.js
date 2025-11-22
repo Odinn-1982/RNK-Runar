@@ -1,14 +1,15 @@
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+﻿const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 import { DataManager } from './DataManager.js';
 import { UIManager } from './UIManager.js';
 import { SocketHandler } from './SocketHandler.js';
 import { Utils } from './Utils.js';
+import { MODULE_ID } from './Constants.js';
 
 export class PlayerHubWindow extends HandlebarsApplicationMixin(ApplicationV2) {
   
   static DEFAULT_OPTIONS = {
     id: 'runar-player-hub',
-    classes: ['ragnaroks-runar', 'player-hub-app'],
+    classes: ['rnk-runar', 'player-hub-app'],
     window: { title: "RNR.PlayerHubTitle", resizable: true },
     tag: 'form',
     position: { width: 600, height: 450 } // FIX: Changed height from "auto" to a fixed value
@@ -19,7 +20,7 @@ export class PlayerHubWindow extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   static PARTS = {
-    form: { template: 'modules/ragnaroks-runar/templates/player-hub.hbs' }
+    form: { template: 'modules/rnk-runar/templates/player-hub.hbs' }
   };
 
   async _prepareContext(options) {
@@ -82,11 +83,17 @@ export class PlayerHubWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     this.element.querySelector('[data-action="openSelected"]')?.addEventListener('click', event => this.openSelected(event));
     this.element.querySelector('[data-action="createGroup"]')?.addEventListener('click', event => this.createGroup(event));
     this.element.querySelector('[data-action="openGMModTools"]')?.addEventListener('click', event => this.openGMModTools(event));
+
+    // Apply personal background or default
+    try {
+      const bg = game.settings.get(MODULE_ID, 'personalBackground') || null;
+      UIManager.applyBackgroundToWindow(this, bg);
+    } catch (e) { /* ignore */ }
   }
 
   async openSelected() {
     const selectedCheckbox = this.element.querySelector('.conversation-checkbox:checked');
-    if (!selectedCheckbox) return ui.notifications.warn("Please select a chat to open.");
+    if (!selectedCheckbox) return ui.notifications.warn(game.i18n.localize("RNR.PleaseSelectChatToOpen"));
     
     const id = selectedCheckbox.dataset.conversationId;
     const type = selectedCheckbox.dataset.type;
@@ -105,7 +112,7 @@ export class PlayerHubWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     const selectedUsers = Array.from(form.querySelectorAll('.user-checkbox:checked')).map(el => el.value);
 
     if (selectedUsers.length === 0) {
-        return ui.notifications.warn("Please select at least one user to chat with.");
+        return ui.notifications.warn(game.i18n.localize("RNR.PleaseSelectUsersToChat"));
     }
 
     // For single user, open private chat
