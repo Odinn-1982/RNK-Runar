@@ -16,7 +16,7 @@
     "verified": "13"
   },
   "esmodules": [
-    "./src/RNKRunar.js",
+    "./src/rnkRunar.js",
     "./src/DataManager.js",
     "./src/UIManager.js",
     "./src/SocketHandler.js",
@@ -32,13 +32,13 @@
   
   "styles": [
     "global-theme.css",
-    "rnk-runar.css",
+    "styles/runar-modern.css",
     "styles/sidebar-button.css"
   ],
   "socket": true,
   "packs": [],
   "license": "MIT",
-  "manifest": "https://github.com/Odinn-1982/rnk-runar/releases/latest/download/module.json",
+  "manifest": "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/master/module.json",
   "download": "https://github.com/Odinn-1982/rnk-runar/releases/latest/download/rnk-runar.zip",
   "url": "https://github.com/Odinn-1982/rnk-runar",
   "readme": "README.md",
