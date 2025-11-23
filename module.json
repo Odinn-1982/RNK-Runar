@@ -38,7 +38,7 @@
   "socket": true,
   "packs": [],
   "license": "MIT",
-  "manifest": "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/master/module.json",
+  "manifest": "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/main/module.json",
   "download": "https://github.com/Odinn-1982/rnk-runar/releases/latest/download/rnk-runar.zip",
   "url": "https://github.com/Odinn-1982/rnk-runar",
   "readme": "README.md",
