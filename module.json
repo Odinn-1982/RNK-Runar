@@ -1,62 +1,63 @@
-{
-  "id": "rnk-runar",
-  "title": "RNK Runar",
-  "description": "A module for managing group and private chats in Foundry VTT.",
-  "version": "2.3.0",
-  "authors": [
-    {
-      "name": "Odinn",
-      "email": "Asgardinnovations@protonmail.com",
-      "url": "https://github.com/Odinn-1982",
-      "discord": "Odinn1982"
-    }
-  ],
-  "compatibility": {
-    "minimum": "13",
-    "verified": "13"
-  },
-  "esmodules": [
-    "./src/rnkRunar.js",
-    "./src/DataManager.js",
-    "./src/UIManager.js",
-    "./src/SocketHandler.js",
-    "./main.js",
-    "./src/RunarWindow.js",
-      "./src/GroupManagerWindow.js",
-    "./src/GMMonitorWindow.js",
-    "./src/SettingsWindow.js",
-      "./src/RunarUIExtras.js",
-    "./src/PlayerHubWindow.js",
-    "./src/SidebarButton.js"
-  ],
-  
-  "styles": [
-    "global-theme.css",
-    "styles/runar-modern.css",
-    "styles/sidebar-button.css"
-  ],
-  "socket": true,
-  "packs": [],
-  "license": "MIT",
-  "manifest": "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/main/module.json",
-  "download": "https://github.com/Odinn-1982/rnk-runar/releases/latest/download/rnk-runar.zip",
-  "url": "https://github.com/Odinn-1982/rnk-runar",
-  "readme": "README.md",
-  "bugs": "https://github.com/Odinn-1982/rnk-runar/issues",
-  "changelog": "CHANGELOG.md",
-  "media": [
-    {
-      "type": "cover",
-      "url": "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/main/assets/cover.jpg",
-      "caption": "RÃºnar - Chat Manager"
-    }
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
-  ]
-}
+﻿{
+    "id":  "rnk-runar",
+    "title":  "RNK Runar",
+    "description":  "A module for managing group and private chats in Foundry VTT.",
+    "version":  "2.3.0",
+    "authors":  [
+                    {
+                        "name":  "Odinn",
+                        "email":  "Asgardinnovations@protonmail.com",
+                        "url":  "https://github.com/Odinn-1982",
+                        "discord":  "Odinn1982"
+                    }
+                ],
+    "compatibility":  {
+                          "minimum":  "13",
+                          "verified":  "13"
+                      },
+    "esmodules":  [
+                      "./src/rnkRunar.js",
+                      "./src/DataManager.js",
+                      "./src/UIManager.js",
+                      "./src/SocketHandler.js",
+                      "./main.js",
+                      "./src/RunarWindow.js",
+                      "./src/GroupManagerWindow.js",
+                      "./src/GMMonitorWindow.js",
+                      "./src/SettingsWindow.js",
+                      "./src/RunarUIExtras.js",
+                      "./src/PlayerHubWindow.js",
+                      "./src/SidebarButton.js",
+                      "scripts/rnk-localize-helper.js"
+                  ],
+    "styles":  [
+                   "global-theme.css",
+                   "styles/runar-modern.css",
+                   "styles/sidebar-button.css"
+               ],
+    "socket":  true,
+    "packs":  [
 
+              ],
+    "license":  "MIT",
+    "manifest":  "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/main/module.json",
+    "download":  "https://github.com/Odinn-1982/rnk-runar/releases/latest/download/rnk-runar.zip",
+    "url":  "https://github.com/Odinn-1982/rnk-runar",
+    "readme":  "README.md",
+    "bugs":  "https://github.com/Odinn-1982/rnk-runar/issues",
+    "changelog":  "CHANGELOG.md",
+    "media":  [
+                  {
+                      "type":  "cover",
+                      "url":  "https://raw.githubusercontent.com/Odinn-1982/rnk-runar/main/assets/cover.jpg",
+                      "caption":  "RÃƒÂºnar - Chat Manager"
+                  }
+              ],
+    "languages":  [
+                      {
+                          "lang":  "en",
+                          "name":  "English",
+                          "path":  "lang/en.json"
+                      }
+                  ]
+}

@@ -38,37 +38,17 @@ function initializeRunarButton() {
       button.id = "runar-sidebar-button";
       button.className = "runar-sidebar-button";
       button.title = "Open RNK Runar";
-      button.style.cssText = `
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0 !important;
-        cursor: pointer !important;
-        background: rgba(0, 0, 0, 0.9) !important;
-        border: 2px solid #6495ED !important;
-        margin: 2px !important;
-        border-radius: 4px !important;
-        transition: all 0.2s ease !important;
-        color: #6495ED !important;
-        min-height: 36px !important;
-        height: 36px !important;
-        width: 36px !important;
-        user-select: none !important;
-        pointer-events: auto !important;
-        position: relative !important;
-        z-index: 100 !important;
-        overflow: hidden !important;
-        line-height: 0 !important;
-      `;
+      // Inline styles removed in favor of styles/sidebar-button.css
       
       button.innerHTML = `
-        <i class="fas fa-comments" style="font-size: 16px; pointer-events: none;"></i>
-        <span class="sidebar-badge" style="display: none; position: absolute; top: -6px; right: -6px; background: #ff0000; color: white; border-radius: 50%; padding: 2px 4px; font-size: 9px; font-weight: bold; min-width: 16px; text-align: center;"></span>
+        <i class="fas fa-comments"></i>
+        <span class="sidebar-badge" style="display: none;"></span>
       `;
       
       console.debug("RÃºnar Button: Button element created");
       
       // Add hover effects
+      /* Handled by CSS
       button.addEventListener('mouseenter', () => {
         button.style.background = 'rgba(100, 149, 237, 0.2)';
         button.style.borderColor = '#87CEEB';
@@ -82,6 +62,7 @@ function initializeRunarButton() {
         button.style.color = '#6495ED';
         button.style.transform = '';
       });
+      */
       
       // Add click handler
       button.addEventListener("click", function(ev) {

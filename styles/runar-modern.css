@@ -1,0 +1,429 @@
+/* RNK Runar - Modern Glassmorphism Theme */
+
+:root {
+    --runar-glass-bg: rgba(20, 20, 25, 0.85);
+    --runar-glass-border: rgba(255, 255, 255, 0.1);
+    --runar-accent: #4a9eff;
+    --runar-accent-glow: rgba(74, 158, 255, 0.3);
+    --runar-text-main: #e0e0e0;
+    --runar-text-muted: #a0a0a0;
+    --runar-msg-sent-bg: rgba(74, 158, 255, 0.2);
+    --runar-msg-recv-bg: rgba(255, 255, 255, 0.05);
+    --runar-radius: 12px;
+    --runar-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* --- Window Container --- */
+.rnk-runar.window-app .window-content {
+    background: var(--runar-glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--runar-glass-border);
+    color: var(--runar-text-main);
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    border-radius: 0 0 var(--runar-radius) var(--runar-radius);
+}
+
+.rnk-runar.window-app .window-header {
+    background: rgba(20, 20, 25, 0.95);
+    border-bottom: 1px solid var(--runar-glass-border);
+    color: var(--runar-text-main);
+    font-weight: bold;
+    border-radius: var(--runar-radius) var(--runar-radius) 0 0;
+}
+
+/* --- Chat Window Layout --- */
+.runar-chat-flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Search Bar */
+.message-search-container {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--runar-glass-border);
+    position: relative;
+}
+
+.message-search {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: 20px;
+    padding: 6px 12px;
+    color: var(--runar-text-main);
+    transition: all 0.2s ease;
+}
+
+.message-search:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--runar-accent);
+    box-shadow: 0 0 8px var(--runar-accent-glow);
+    outline: none;
+}
+
+/* Toolbar */
+.chat-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--runar-glass-border);
+    gap: 5px;
+}
+
+.chat-toolbar button {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--runar-text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.chat-toolbar button:hover {
+    color: var(--runar-accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.chat-toolbar button.active {
+    color: var(--runar-accent);
+}
+
+/* Message List */
+.message-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--runar-accent) transparent;
+}
+
+.message-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+    background-color: var(--runar-accent);
+    border-radius: 3px;
+}
+
+/* Chat Messages */
+.chat-message {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    border: 1px solid transparent;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-message.sent {
+    align-self: flex-end;
+    background: var(--runar-msg-sent-bg);
+    border-color: rgba(74, 158, 255, 0.1);
+    border-bottom-right-radius: 2px;
+}
+
+.chat-message.received {
+    align-self: flex-start;
+    background: var(--runar-msg-recv-bg);
+    border-color: rgba(255, 255, 255, 0.05);
+    border-bottom-left-radius: 2px;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    color: var(--runar-text-muted);
+}
+
+.sender-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--runar-glass-border);
+}
+
+.sender-name {
+    font-weight: 600;
+    color: var(--runar-text-main);
+}
+
+.message-content {
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* Input Area */
+.chat-input-area {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid var(--runar-glass-border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.chat-input-area textarea {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--runar-text-main);
+    resize: none;
+    min-height: 40px;
+    max-height: 120px;
+    transition: border-color 0.2s;
+}
+
+.chat-input-area textarea:focus {
+    border-color: var(--runar-accent);
+    outline: none;
+}
+
+.chat-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--runar-accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.chat-send-btn:hover {
+    background: #3a8eef;
+    transform: scale(1.05);
+}
+
+/* --- Player Hub Styles --- */
+.player-hub-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    height: 100%;
+}
+
+.existing-chats, .create-new-chat {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: var(--runar-radius);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.existing-chats h4, .create-new-chat h4 {
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--runar-glass-border);
+    color: var(--runar-accent);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* --- Form Styles (Settings & General) --- */
+.rnk-runar .form-group {
+    margin-bottom: 15px;
+}
+
+.rnk-runar label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--runar-text-main);
+}
+
+.rnk-runar input[type="text"],
+.rnk-runar select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: 6px;
+    padding: 8px;
+    color: var(--runar-text-main);
+    font-family: inherit;
+}
+
+.rnk-runar input[type="text"]:focus,
+.rnk-runar select:focus {
+    border-color: var(--runar-accent);
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rnk-runar .notes {
+    font-size: 0.85rem;
+    color: var(--runar-text-muted);
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.rnk-runar button {
+    background: var(--runar-accent);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.rnk-runar button:hover {
+    filter: brightness(1.1);
+}
+
+.rnk-runar button:disabled {
+    background: #555;
+    cursor: not-allowed;
+    filter: none;
+}
+
+/* --- GM Monitor Styles --- */
+.gm-monitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.monitor-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.monitor-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: var(--runar-accent);
+}
+
+/* --- GM Monitor Updates --- */
+.gm-monitor-flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 15px;
+    gap: 15px;
+}
+
+.monitor-header-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.monitor-header-buttons button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--runar-glass-border);
+    color: var(--runar-text-main);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.monitor-header-buttons button:hover {
+    background: var(--runar-accent);
+    color: white;
+}
+
+.gm-monitor-flex-container .message-log {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.message-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+}
+
+.message-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.message-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    color: var(--runar-text-muted);
+}
+
+.monitor-arrow {
+    color: var(--runar-accent);
+    font-size: 0.8rem;
+}
+
+.message-content-preview {
+    color: var(--runar-text-main);
+    font-size: 0.95rem;
+    padding-left: 32px; /* Align with text */
+}
+
+/* --- Group Manager Reuse --- */
+.group-manager-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    height: 100%;
+}
+
+.group-manager-content .existing-conversations,
+.group-manager-content .create-new-group {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--runar-glass-border);
+    border-radius: var(--runar-radius);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.group-manager-content h4 {
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--runar-glass-border);
+    color: var(--runar-accent);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}

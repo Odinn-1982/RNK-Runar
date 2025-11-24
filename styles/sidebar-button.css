@@ -8,12 +8,12 @@
   justify-content: center !important;
   padding: 0 !important;
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.9) !important;
-  border: 2px solid #ff0000 !important;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #6495ED; /* Cornflower Blue to match theme */
   margin: 2px !important;
-  border-radius: 3px !important;
+  border-radius: 4px !important;
   transition: all 0.2s ease;
-  color: #ff3333 !important;
+  color: #6495ED;
   width: 36px !important;
   min-width: 36px !important;
   max-width: 36px !important;
@@ -21,33 +21,49 @@
   min-height: 36px !important;
   max-height: 36px !important;
   user-select: none;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
   pointer-events: auto !important;
   align-self: center !important;
   flex: 0 0 auto !important;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4), inset 0 0 5px rgba(255, 0, 0, 0.2);
+  box-shadow: 0 0 5px rgba(100, 149, 237, 0.2);
   position: relative;
   z-index: 100;
-  overflow: hidden;
+  overflow: visible !important; /* Allow badge to overflow */
   line-height: 0;
 }
 
 #runar-sidebar-button:hover,
 .runar-sidebar-button:hover {
-  background: rgba(20, 0, 0, 0.95) !important;
-  color: #ff5555 !important;
-  border-color: #ff5555 !important;
-  box-shadow: 0 0 15px rgba(255, 85, 85, 0.6), inset 0 0 8px rgba(255, 85, 85, 0.3);
-  transform: translateY(-1px);
+  background: rgba(100, 149, 237, 0.2);
+  color: #87CEEB;
+  border-color: #87CEEB;
+  box-shadow: 0 0 10px rgba(135, 206, 235, 0.4);
+  transform: scale(1.05);
 }
 
-#runar-sidebar-button:active,
-.runar-sidebar-button:active {
-  background: rgba(0, 0, 0, 0.95) !important;
-  box-shadow: 0 0 12px rgba(255, 0, 0, 0.5), inset 0 0 10px rgba(255, 0, 0, 0.4);
+#runar-sidebar-button i,
+.runar-sidebar-button i {
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* Badge Styling */
+.runar-sidebar-button .sidebar-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ff0000;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 4px;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 16px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  border: 1px solid white;
+  z-index: 101;
+  line-height: 1;
+}
   transform: translateY(0);
 }
 
